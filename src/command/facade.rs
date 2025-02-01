@@ -44,7 +44,7 @@ impl<T: RunnableCommand> SafeRunnableCommand for T {
 
 #[async_trait::async_trait]
 pub trait RunnableCommand: clap::Parser + Send + Sync + 'static {
-    async fn callback(&self, cx: crate::context::Context) -> Result<CallbackStatus> {
+    async fn callback(&self, _cx: crate::context::Context) -> Result<CallbackStatus> {
         Ok(CallbackStatus::Continue)
     }
     fn bind_matches(&mut self, mut matches: clap::ArgMatches) -> Result<()> {

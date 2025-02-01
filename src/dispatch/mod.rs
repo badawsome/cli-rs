@@ -44,9 +44,13 @@ impl Dispatcher {
         self.dispatch_inner(cx, matches).await
     }
 
-    pub async fn dispatch<I, T, O>(self, i: I, o: O) -> Result<Context>
+    pub async fn dispatch<I, T, O>(
+        self,
+        i: I,
+        o: std::sync::Arc<tokio::sync::Mutex<O>>,
+    ) -> Result<Context>
     where
-        O: tokio::io::AsyncWrite + Send + 'static,
+        O: crate::context::OutputBound,
         I: IntoIterator<Item = T>,
         T: Into<std::ffi::OsString> + Clone,
     {
